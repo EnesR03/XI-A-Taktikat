@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="sq" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#061528">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="XI-A Taktika">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="XI-A Taktika">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+    <title>Mehmet Akif School XI-A Football Team F.C. - Taktikat 5+1</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0B2341',
+                            dark: '#061528',
+                            light: '#173660'
+                        },
+                        crimson: {
+                            DEFAULT: '#C8102E',
+                            dark: '#9A0B21',
+                            light: '#E62E4A'
+                        },
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3CF55',
+                            dark: '#A38320'
+                        },
+                        futsal: {
+                            DEFAULT: '#1E4375',
+                            dark: '#173660',
+                            border: '#2A5A9A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+        /* iPhone safe areas when launched from the Home Screen */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            header { padding-top: max(0.5rem, env(safe-area-inset-top)); }
+        }
+        canvas {
+            touch-action: none;
+        }
+        .tool-btn.active {
+            background-color: #C8102E !important;
+            color: #FFFFFF !important;
+            border-color: #C8102E !important;
+            box-shadow: 0 2px 8px rgba(200, 16, 46, 0.4);
+        }
+        .color-dot.active {
+            transform: scale(1.25);
+            ring: 2px;
+            outline: 2px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        /* Custom sleek scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #061528;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #173660;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col bg-slate-900 text-slate-100 select-none overflow-x-hidden">
+
+    <!-- ================= HEADER & CREST ================= -->
+    <header class="bg-navy-dark border-b-2 border-gold/40 shadow-lg sticky top-0 z-40 px-3 py-2">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <!-- SVG Crest Replica -->
+                <div class="w-10 h-12 relative flex-shrink-0">
+                    <svg viewBox="0 0 200 240" class="w-full h-full drop-shadow-md">
+                        <path d="M 20,20 L 180,20 Q 180,140 100,220 Q 20,140 20,20 Z" fill="#0B2341" stroke="#C8102E" stroke-width="6"/>
+                        <path d="M 28,28 L 172,28 Q 172,135 100,210 Q 28,135 28,28 Z" fill="#173660"/>
+                        <circle cx="100" cy="110" r="55" fill="#C8102E" stroke="#0B2341" stroke-width="4"/>
+                        <circle cx="100" cy="110" r="38" fill="#0B2341"/>
+                        <rect x="45" y="90" width="110" height="40" rx="6" fill="#D4AF37" stroke="#0B2341" stroke-width="3"/>
+                        <text x="100" y="119" font-family="Inter, sans-serif" font-weight="900" font-size="26" fill="#0B2341" text-anchor="middle">XI-A</text>
+                        <path id="textArcTop" d="M 35,45 Q 100,25 165,45" fill="none"/>
+                        <text font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle">
+                            <textPath href="#textArcTop" startOffset="50%">MEHMET AKIF</textPath>
+                        </text>
+                        <path d="M 30,175 L 170,175 L 160,195 L 170,215 L 30,215 L 40,195 Z" fill="#C8102E" stroke="#D4AF37" stroke-width="2"/>
+                        <text x="100" y="193" font-family="Inter, sans-serif" font-weight="800" font-size="10" fill="#FFFFFF" text-anchor="middle">FOOTBALL TEAM</text>
+                        <text x="100" y="207" font-family="Inter, sans-serif" font-weight="800" font-size="9" fill="#D4AF37" text-anchor="middle">F.C.</text>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-black text-white tracking-wider uppercase leading-none">
+                        MEHMET AKIF SCHOOL <span class="text-gold">XI-A</span>
+                    </h1>
+                    <p class="text-[11px] font-semibold text-slate-300 mt-0.5">Tabela Taktike Futsall 5+1</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Stats & Export -->
+            <div class="flex items-center gap-2">
+                <div class="hidden sm:flex items-center gap-3 bg-navy border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold">
+                    <span class="text-slate-200"><i class="fa-solid fa-user-check text-gold mr-1"></i> Titullarë: <strong id="topStarterCount" class="text-gold">6</strong>/6</span>
+                    <span class="text-slate-600">|</span>
+                    <span class="text-slate-200"><i class="fa-solid fa-couch text-crimson mr-1"></i> Banka: <strong id="topBenchCount" class="text-crimson">3</strong></span>
+                </div>
+                <button id="btnExportImage" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold text-xs px-3 py-2 rounded-lg transition shadow-md flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-camera text-gold"></i>
+                    <span>Shkarko Imazhin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN LAYOUT ================= -->
+    <main class="max-w-7xl mx-auto w-full p-2 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 flex-grow">
+
+        <!-- LEFT/CENTER: FUTSAL COURT & CONTROLS (8 COLS) -->
+        <section class="lg:col-span-8 flex flex-col gap-2.5">
+            
+            <!-- TOOLBAR & FORMATION SELECTOR -->
+            <div class="bg-navy p-2.5 rounded-xl border border-slate-700 shadow-md flex flex-wrap items-center justify-between gap-2">
+                <!-- Formacioni 5+1 -->
+                <div class="flex items-center gap-2">
+                    <label for="formationSelect" class="text-xs font-bold text-gold uppercase tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-diagram-project"></i> Formacioni:
+                    </label>
+                    <select id="formationSelect" class="bg-navy-dark border border-slate-600 text-white font-bold text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-gold">
+                        <option value="2-2-1">2-2-1 (Balancuar)</option>
+                        <option value="2-1-2">2-1-2 (Sulmues)</option>
+                        <option value="3-1-1">3-1-1 (Mbrojtës)</option>
+                        <option value="1-2-2">1-2-2 (Presing i Lartë)</option>
+                        <option value="1-3-1">1-3-1 (Rromb Rreshtim)</option>
+                    </select>
+                </div>
+
+                <!-- Veglat e Vizatimit -->
+                <div class="flex items-center gap-1 bg-navy-dark p-1 rounded-lg border border-slate-700 flex-wrap">
+                    <button data-tool="select" class="tool-btn active px-2.5 py-1 rounded-md text-xs font-bold text-slate-200 border border-transparent transition flex items-center gap-1">
+                        <i class="fa-solid fa-hand-pointer text-gold"></i> Lëviz
+                    </button>
+                    <button data-tool="arrow" class="tool-btn px-2.5 py-1 rounded-md text-xs font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right-long text-crimson"></i> Paso/Gjuaj
+                    </button>
+                    <button data-tool="dashed" class="tool-btn px-2.5 py-1 rounded-md text-xs font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-1">
+                        <i class="fa-solid fa-ellipsis"></i> Vrapim
+                    </button>
+                    <button data-tool="freehand" class="tool-btn px-2.5 py-1 rounded-md text-xs font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-1">
+                        <i class="fa-solid fa-pen"></i> Vizato
+                    </button>
+                    <button data-tool="eraser" class="tool-btn px-2.5 py-1 rounded-md text-xs font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-1">
+                        <i class="fa-solid fa-eraser"></i> Goma
+                    </button>
+                </div>
+
+                <!-- Colors & Actions -->
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1.5 bg-navy-dark px-2 py-1 rounded-lg border border-slate-700">
+                        <button data-color="#D4AF37" class="color-dot active w-4 h-4 rounded-full bg-gold"></button>
+                        <button data-color="#C8102E" class="color-dot w-4 h-4 rounded-full bg-crimson"></button>
+                        <button data-color="#FFFFFF" class="color-dot w-4 h-4 rounded-full bg-white"></button>
+                        <button data-color="#38BDF8" class="color-dot w-4 h-4 rounded-full bg-sky-400"></button>
+                    </div>
+
+                    <button id="btnUndo" title="Rikthe vizatimin e fundit" class="p-1.5 bg-navy-dark hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-bold border border-slate-700 transition active:scale-95">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button id="btnClearDrawings" title="Pastro të gjitha vizatimet" class="p-1.5 bg-crimson/20 hover:bg-crimson/40 text-crimson-light rounded-lg text-xs font-bold border border-crimson/40 transition active:scale-95">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- BLUE FUTSAL COURT CANVAS CONTAINER (Interactive canvas) -->
+            <div id="pitchWrapper" class="relative w-full aspect-[3/2] max-h-[480px] bg-futsal border-4 border-futsal-border rounded-xl overflow-hidden shadow-2xl select-none touch-none">
+                <canvas id="futsalCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+            </div>
+
+            <!-- TACTICAL KEYFRAME ANIMATION -->
+            <div id="animationPanel" class="bg-navy p-3 rounded-xl border border-gold/30 shadow-md flex flex-col gap-2.5">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700 pb-2">
+                    <div>
+                        <h3 class="font-extrabold text-xs text-gold uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-film text-crimson"></i> Krijimi i Animacioneve të Taktikave
+                        </h3>
+                        <p class="text-[10px] text-slate-400 mt-1">Ruaj pozicionet si korniza dhe shfaq lëvizjen e skemës hap pas hapi.</p>
+                    </div>
+                    <span id="animationStatus" class="text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-slate-800 border border-slate-600 text-slate-300">Gati për korniza</span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="btnAddKeyframe" class="px-3 py-2 bg-gold hover:bg-gold-light text-navy-dark font-black text-xs rounded-lg transition shadow flex items-center gap-1.5 active:scale-95">
+                        <i class="fa-solid fa-plus"></i> Shto Kornizë / Ruaj Kadencën
+                    </button>
+                    <button id="btnReplaceKeyframe" class="px-3 py-2 bg-navy-dark hover:bg-slate-700 text-gold border border-slate-600 font-bold text-xs rounded-lg transition flex items-center gap-1.5 active:scale-95 disabled:opacity-40" disabled>
+                        <i class="fa-solid fa-arrows-rotate"></i> Përditëso Kornizën Aktuale
+                    </button>
+                    <button id="btnPlayAnimation" class="px-3 py-2 bg-crimson hover:bg-crimson-dark text-white font-extrabold text-xs rounded-lg transition shadow flex items-center gap-1.5 active:scale-95">
+                        <i class="fa-solid fa-play"></i> Luaj Animacionin
+                    </button>
+                    <button id="btnClearKeyframes" class="px-3 py-2 bg-navy-dark hover:bg-slate-700 text-slate-200 border border-slate-600 font-bold text-xs rounded-lg transition flex items-center gap-1.5 active:scale-95">
+                        <i class="fa-solid fa-trash-can text-crimson-light"></i> Fshi Kornizat
+                    </button>
+                    <button id="btnExportFrames" class="px-3 py-2 bg-futsal hover:bg-futsal-dark text-white border border-sky-300/20 font-bold text-xs rounded-lg transition flex items-center gap-1.5 active:scale-95" disabled>
+                        <i class="fa-solid fa-file-zipper text-gold"></i> Eksporto sekuencën PNG (.zip)
+                    </button>
+                    <button id="btnExportVideo" class="px-3 py-2 bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-400/30 font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                        <i class="fa-solid fa-video text-gold"></i> Eksporto animacionin si video
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-[auto_1fr] items-center gap-2 bg-navy-dark/70 border border-slate-700 rounded-lg p-2.5">
+                    <div class="flex items-center gap-2 min-w-[132px]">
+                        <i class="fa-solid fa-list-ol text-gold"></i>
+                        <span id="keyframeCounter" class="text-xs font-black text-white tabular-nums">Korniza 0 / 0</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-slate-400">Fillimi</span>
+                        <input id="frameSlider" type="range" min="0" max="0" step="1" value="0" disabled aria-label="Kalo manualisht mes kornizave" class="w-full accent-gold cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed">
+                        <span class="text-[10px] text-slate-400">Fundi</span>
+                    </div>
+                    <p id="keyframeHint" class="sm:col-span-2 text-[10px] text-slate-400">Lëviz lojtarët ose vizato skemën, pastaj kliko “Shto Kornizë”. Shto të paktën dy korniza për animacion.</p>
+                </div>
+
+                <!-- SAVED ANIMATION LIBRARY -->
+                <div class="border-t border-slate-700 pt-3 flex flex-col gap-2.5">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-gold"></i>
+                        <h4 class="text-xs font-extrabold text-white uppercase tracking-wider">Biblioteka e Animacioneve</h4>
+                        <span id="savedTacticsCount" class="ml-auto text-[10px] text-slate-400">0 të ruajtura</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2">
+                        <input id="tacticNameInput" type="text" maxlength="80" autocomplete="off"
+                            class="min-w-0 w-full bg-navy-dark border border-slate-600 rounded-lg px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold"
+                            placeholder="Emri i taktikës, p.sh. Kundërsulm i shpejtë" aria-label="Emri i animacionit taktik">
+                        <button id="btnSaveTactic" class="px-3 py-2 bg-gold hover:bg-gold-light text-navy-dark font-black text-xs rounded-lg transition flex items-center justify-center gap-1.5 active:scale-95">
+                            <i class="fa-solid fa-floppy-disk"></i> Ruaj me emër
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto_auto] gap-2">
+                        <select id="savedTacticsSelect" class="min-w-0 w-full bg-navy-dark border border-slate-600 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gold" aria-label="Zgjidh animacion të ruajtur">
+                            <option value="">— Zgjidh animacion të ruajtur —</option>
+                        </select>
+                        <button id="btnLoadTactic" class="px-3 py-2 bg-futsal hover:bg-futsal-dark text-white font-bold text-xs rounded-lg border border-sky-300/20 transition flex items-center justify-center gap-1.5 disabled:opacity-40" disabled>
+                            <i class="fa-solid fa-folder-open"></i> Hap
+                        </button>
+                        <button id="btnUpdateTactic" class="px-3 py-2 bg-navy-dark hover:bg-slate-700 text-gold font-bold text-xs rounded-lg border border-slate-600 transition flex items-center justify-center gap-1.5 disabled:opacity-40" disabled>
+                            <i class="fa-solid fa-rotate"></i> Përditëso
+                        </button>
+                        <button id="btnDeleteTactic" class="px-3 py-2 bg-crimson/20 hover:bg-crimson/40 text-crimson-light font-bold text-xs rounded-lg border border-crimson/40 transition flex items-center justify-center gap-1.5 disabled:opacity-40" disabled>
+                            <i class="fa-solid fa-trash-can"></i> Fshi
+                        </button>
+                    </div>
+                    <p id="savedTacticsStatus" role="status" aria-live="polite" class="text-[10px] text-slate-400">Animacionet ruhen në këtë shfletues dhe mund të hapen përsëri edhe pas rifreskimit të faqes.</p>
+                </div>
+            </div>
+
+            <!-- PITCH LEGEND & RESET BUTTON -->
+            <div class="bg-navy p-2 rounded-xl border border-slate-700 shadow-md flex flex-wrap items-center justify-between text-xs gap-2">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3.5 h-3.5 rounded-full bg-navy border-2 border-gold inline-block"></span>
+                        <span class="font-bold text-gold">Ekipi XI-A</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3.5 h-3.5 rounded-full bg-crimson border-2 border-white inline-block"></span>
+                        <span class="font-bold text-slate-300">Kundërshtari</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3.5 h-3.5 rounded-full bg-white border border-slate-900 inline-block"></span>
+                        <span class="font-bold text-slate-300">Topi</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400 text-[11px] italic hidden sm:inline">
+                        <i class="fa-solid fa-touch-app text-gold"></i> Tërhiq lojtarët me gisht/mi. Ndërro pozicionet duke lëshuar lojtarin mbi tjetrin!
+                    </span>
+                    <button id="btnResetPitch" class="px-2.5 py-1 bg-navy-dark hover:bg-slate-700 text-gold font-extrabold rounded-lg text-xs border border-slate-600 transition flex items-center gap-1 active:scale-95">
+                        <i class="fa-solid fa-rotate text-xs"></i> Pastro Pitch-in
+                    </button>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE SET PIECE ROUTINES -->
+            <div class="bg-navy p-3 rounded-xl border border-slate-700 shadow-md flex flex-col gap-2">
+                <div class="flex items-center justify-between border-b border-slate-700 pb-1.5">
+                    <h3 class="font-extrabold text-xs text-gold uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-clipboard-list text-crimson"></i> Skemat & Taktikat 5+1
+                    </h3>
+                    <span class="text-[10px] text-slate-400">Direktivat e Ndeshjes</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button class="preset-sp-btn p-2 rounded-lg bg-navy-dark hover:bg-slate-700 border border-slate-700 text-left transition active:scale-95" data-sp="corner">
+                        <div class="text-xs font-extrabold text-gold"><i class="fa-solid fa-flag text-crimson text-[10px] mr-1"></i> Këndore (Corner)</div>
+                        <div class="text-[10px] text-slate-400">Mbingarkesë 2-kundër-1</div>
+                    </button>
+                    <button class="preset-sp-btn p-2 rounded-lg bg-navy-dark hover:bg-slate-700 border border-slate-700 text-left transition active:scale-95" data-sp="sideline">
+                        <div class="text-xs font-extrabold text-gold"><i class="fa-solid fa-play text-sky-400 text-[10px] mr-1"></i> Rivënie Anësore</div>
+                        <div class="text-[10px] text-slate-400">Pasa të shpejta diagonale</div>
+                    </button>
+                    <button class="preset-sp-btn p-2 rounded-lg bg-navy-dark hover:bg-slate-700 border border-slate-700 text-left transition active:scale-95" data-sp="press">
+                        <div class="text-xs font-extrabold text-gold"><i class="fa-solid fa-bolt text-gold text-[10px] mr-1"></i> Presing i Lartë</div>
+                        <div class="text-[10px] text-slate-400">Bllokim futsalli 1-v-1</div>
+                    </button>
+                    <button class="preset-sp-btn p-2 rounded-lg bg-navy-dark hover:bg-slate-700 border border-slate-700 text-left transition active:scale-95" data-sp="counter">
+                        <div class="text-xs font-extrabold text-gold"><i class="fa-solid fa-gauge-high text-emerald-400 text-[10px] mr-1"></i> Kundërsulm</div>
+                        <div class="text-[10px] text-slate-400">Dalje e shpejtë e Leonit</div>
+                    </button>
+                </div>
+
+                <textarea id="tacticalNotes" rows="2" class="w-full bg-navy-dark border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-gold" placeholder="Shkruaj udhëzimet taktike për Ekipin XI-A këtu..."></textarea>
+            </div>
+
+        </section>
+
+        <!-- RIGHT SIDEBAR: SQUAD ROSTER & SWAPPING (4 COLS) -->
+        <aside class="lg:col-span-4 flex flex-col gap-3">
+
+            <!-- ROSTER CARD -->
+            <div class="bg-navy p-3.5 rounded-xl border border-slate-700 shadow-md flex flex-col gap-2.5">
+                <div class="flex items-center justify-between border-b border-slate-700 pb-2">
+                    <div>
+                        <h3 class="font-black text-sm text-white uppercase tracking-wider">
+                            Rreshtimi Ekipit XI-A
+                        </h3>
+                        <p class="text-[11px] text-slate-400">9 Lojtarët Zyrtarë (Ekipi 5+1)</p>
+                    </div>
+                    <span class="bg-crimson text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Zyrtare
+                    </span>
+                </div>
+
+                <!-- Squad List with Dynamic Any-to-Any Swap Button -->
+                <div class="flex flex-col gap-1.5 max-h-[420px] overflow-y-auto pr-1" id="rosterList">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <div class="bg-navy-dark p-2.5 rounded-lg border border-slate-700 text-[11px] text-slate-300 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-gold text-sm mt-0.5"></i>
+                    <div>
+                        <strong class="text-gold block">Si të ndërrosh lojtarët:</strong>
+                        Kliko butonin <strong class="text-crimson">Ndrro</strong> te çdo lojtar për ta zëvendësuar ose ndërruar me cilindo lojtar tjetër në fushë apo bankë!
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <!-- SWAP SELECTION MODAL -->
+    <div id="swapModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-navy rounded-xl shadow-2xl border-2 border-gold max-w-sm w-full p-4 flex flex-col gap-3">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                <h3 class="font-extrabold text-sm text-gold uppercase tracking-wider" id="swapModalTitle">Zgjidh Lojtarin për Zëvendësim</h3>
+                <button id="btnCloseSwapModal" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-slate-300" id="swapModalSub">Me kë dëshiron ta ndërrosh këtë lojtar?</p>
+            
+            <div id="swapCandidatesList" class="flex flex-col gap-1.5 max-h-60 overflow-y-auto my-1">
+                <!-- Dynamic candidate list -->
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700">
+                <button id="btnCancelSwap" class="bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">
+                    Anulo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // Exact 9 Squad Members for Mehmet Akif School XI-A
+        let squadData = [
+            { id: 13, name: 'Leonit', role: 'Portier (GK)', number: 13, active: true },
+            { id: 3,  name: 'Blin', role: 'Mbrojtës (CB)', number: 3, active: true },
+            { id: 5,  name: 'Art H.', role: 'Mbrojtës (CB)', number: 5, active: true },
+            { id: 4,  name: 'Pris', role: 'Mbrojtës Anësor (RB/LB)', number: 4, active: true },
+            { id: 10, name: 'Eulon', role: 'Mesfushor (CM/CDM/CAM)', number: 10, active: true },
+            { id: 9,  name: 'Enes', role: 'Sulmues (ST)', number: 9, active: true },
+            { id: 11, name: 'Nart', role: 'Mesfushor Sulmues (CAM)', number: 11, active: false },
+            { id: 6,  name: 'Lirak', role: 'Mbrojtës (CB)', number: 6, active: false },
+            { id: 2,  name: 'Leundin', role: 'Mbrojtës Anësor (RB/LB)', number: 2, active: false }
+        ];
+
+        // 5+1 Formations Coordinates (%).
+        // Starting setup: XI-A stays in the left half (x < 50), opponents in the right half (x > 50).
+        // Players remain fully draggable and can cross the halfway line during tactical editing.
+        const FORMATIONS_5_1 = {
+            '2-2-1': [
+                { role: 'GK', x: 8, y: 50 },
+                { role: 'CB', x: 23, y: 32 },
+                { role: 'CB', x: 23, y: 68 },
+                { role: 'CM', x: 35, y: 35 },
+                { role: 'CM', x: 35, y: 65 },
+                { role: 'ST', x: 44, y: 50 }
+            ],
+            '2-1-2': [
+                { role: 'GK', x: 8, y: 50 },
+                { role: 'CB', x: 22, y: 32 },
+                { role: 'CB', x: 22, y: 68 },
+                { role: 'CDM', x: 32, y: 50 },
+                { role: 'CAM', x: 42, y: 32 },
+                { role: 'ST', x: 44, y: 68 }
+            ],
+            '3-1-1': [
+                { role: 'GK', x: 8, y: 50 },
+                { role: 'LB', x: 22, y: 22 },
+                { role: 'CB', x: 21, y: 50 },
+                { role: 'RB', x: 22, y: 78 },
+                { role: 'CM', x: 34, y: 50 },
+                { role: 'ST', x: 44, y: 50 }
+            ],
+            '1-2-2': [
+                { role: 'GK', x: 8, y: 50 },
+                { role: 'CB', x: 22, y: 50 },
+                { role: 'LM', x: 34, y: 28 },
+                { role: 'RM', x: 34, y: 72 },
+                { role: 'ST', x: 43, y: 36 },
+                { role: 'ST', x: 43, y: 64 }
+            ],
+            '1-3-1': [
+                { role: 'GK', x: 8, y: 50 },
+                { role: 'CB', x: 21, y: 50 },
+                { role: 'LM', x: 32, y: 24 },
+                { role: 'CM', x: 33, y: 50 },
+                { role: 'RM', x: 32, y: 76 },
+                { role: 'ST', x: 43, y: 50 }
+            ]
+        };
+
+        const OPPONENT_DEFAULT = [
+            { name: 'K. Portier', number: '1', x: 92, y: 50 },
+            { name: 'K. Mbrojtës', number: '2', x: 78, y: 32 },
+            { name: 'K. Mbrojtës', number: '3', x: 78, y: 68 },
+            { name: 'K. Mesfushor', number: '6', x: 66, y: 35 },
+            { name: 'K. Mesfushor', number: '8', x: 66, y: 65 },
+            { name: 'K. Sulmues', number: '9', x: 56, y: 50 }
+        ];
+
+        let tokens = [];
+        let drawingsHistory = [];
+        let freehandPoints = [];
+
+        let currentTool = 'select'; // 'select', 'arrow', 'dashed', 'freehand', 'eraser'
+        let currentColor = '#D4AF37';
+        let isDrawing = false;
+        let startX = 0, startY = 0;
+
+        let activeDraggedToken = null;
+        let targetSwapPlayerIdx = null;
+
+        // Keyframe animation state. Coordinates remain in the same percentage/pixel
+        // systems already used by the original tokens and canvas drawings.
+        let keyframes = [];
+        let selectedKeyframeIndex = 0;
+        let savedTactics = [];
+        let selectedSavedTacticId = '';
+        const TACTIC_LIBRARY_STORAGE_KEY = 'mehmetAkifXIATacticsLibrary_v1';
+        let animationPlaying = false;
+        let animationStartTimestamp = null;
+        let animationRafId = null;
+        let videoRecording = false;
+        let videoRecorder = null;
+        let videoChunks = [];
+        let videoStopTimerId = null;
+        const KEYFRAME_DURATION_MS = 1500;
+
+        // Canvas & DOM
+        const pitchWrapper = document.getElementById('pitchWrapper');
+        const futsalCanvas = document.getElementById('futsalCanvas');
+        let ctx = futsalCanvas.getContext('2d');
+
+        window.onload = function() {
+            setupCanvasSize();
+            renderRoster();
+            applyFormation('2-2-1');
+            setupControls();
+            
+            // Animation / Render loop
+            requestAnimationFrame(renderLoop);
+
+            window.addEventListener('resize', () => {
+                setupCanvasSize();
+            });
+        };
+
+        function setupCanvasSize() {
+            const rect = pitchWrapper.getBoundingClientRect();
+            futsalCanvas.width = rect.width;
+            futsalCanvas.height = rect.height;
+        }
+
+        // Apply 5+1 Formation
+        function applyFormation(key) {
+            tokens = [];
+            const activeStarters = squadData.filter(s => s.active);
+            const coords = FORMATIONS_5_1[key] || FORMATIONS_5_1['2-2-1'];
+
+            // XI-A Tokens
+            coords.forEach((c, idx) => {
+                const player = activeStarters[idx] || { name: `P${idx+1}`, number: idx+1, id: 'temp_' + idx };
+                tokens.push({
+                    id: 'home_' + player.id,
+                    team: 'home',
+                    name: player.name,
+                    number: player.number,
+                    squadId: player.id,
+                    x: c.x,
+                    y: c.y,
+                    radius: 15
+                });
+            });
+
+            // Away Tokens
+            OPPONENT_DEFAULT.forEach((opp, idx) => {
+                tokens.push({
+                    id: 'away_' + idx,
+                    team: 'away',
+                    name: opp.name,
+                    number: opp.number,
+                    x: opp.x,
+                    y: opp.y,
+                    radius: 15
+                });
+            });
+
+            // Ball Token
+            tokens.push({
+                id: 'ball',
+                team: 'ball',
+                name: 'Topi',
+                number: '',
+                x: 50,
+                y: 50,
+                radius: 10
+            });
+        }
+
+        // MAIN RENDER LOOP (Draws Field + Drawings + Tokens directly to Canvas)
+        function renderLoop() {
+            ctx.clearRect(0, 0, futsalCanvas.width, futsalCanvas.height);
+
+            drawFutsalCourt();
+            drawAnnotations();
+            drawTokens();
+
+            requestAnimationFrame(renderLoop);
+        }
+
+        // Draw Professional Blue Futsal Court
+        function drawFutsalCourt() {
+            const w = futsalCanvas.width;
+            const h = futsalCanvas.height;
+
+            // Background Futsal Blue
+            ctx.fillStyle = '#1E4375';
+            ctx.fillRect(0, 0, w, h);
+
+            // Court Plank Lines (Subtle texture)
+            ctx.strokeStyle = '#173660';
+            ctx.lineWidth = 1;
+            const plankH = h / 12;
+            for (let i = 0; i < 12; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * plankH);
+                ctx.lineTo(w, i * plankH);
+                ctx.stroke();
+            }
+
+            // Boundary Lines
+            const pad = 12;
+            const courtW = w - (pad * 2);
+            const courtH = h - (pad * 2);
+
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 2.5;
+            ctx.strokeRect(pad, pad, courtW, courtH);
+
+            // Center Line
+            ctx.beginPath();
+            ctx.moveTo(w / 2, pad);
+            ctx.lineTo(w / 2, h - pad);
+            ctx.stroke();
+
+            // Center Circle & Spot
+            const radius = courtH * 0.22;
+            ctx.beginPath();
+            ctx.arc(w / 2, h / 2, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.arc(w / 2, h / 2, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 6m Semi-Circle D Penalty Areas
+            const boxH = courtH * 0.6;
+            const boxY = (h - boxH) / 2;
+            const dRadius = boxH / 2;
+
+            // Left D Area
+            ctx.beginPath();
+            ctx.arc(pad, h / 2, dRadius, -Math.PI / 2, Math.PI / 2);
+            ctx.stroke();
+
+            // Left 6m Penalty Spot
+            ctx.beginPath();
+            ctx.arc(pad + dRadius, h / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Right D Area
+            ctx.beginPath();
+            ctx.arc(w - pad, h / 2, dRadius, Math.PI / 2, -Math.PI / 2);
+            ctx.stroke();
+
+            // Right 6m Penalty Spot
+            ctx.beginPath();
+            ctx.arc(w - pad - dRadius, h / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Goals
+            ctx.lineWidth = 4;
+            const goalH = courtH * 0.28;
+            const goalY = (h - goalH) / 2;
+
+            // Left Goal Net
+            ctx.strokeStyle = '#D4AF37';
+            ctx.strokeRect(pad - 6, goalY, 6, goalH);
+            // Right Goal Net
+            ctx.strokeRect(w - pad, goalY, 6, goalH);
+        }
+
+        // Draw Player and Ball Tokens
+        function drawTokens() {
+            const w = futsalCanvas.width;
+            const h = futsalCanvas.height;
+
+            tokens.forEach(t => {
+                const px = (t.x / 100) * w;
+                const py = (t.y / 100) * h;
+
+                if (t.team === 'home') {
+                    // XI-A Token (Navy Body, Gold Ring)
+                    ctx.beginPath();
+                    ctx.arc(px, py, 14, 0, Math.PI * 2);
+                    ctx.fillStyle = '#0B2341';
+                    ctx.fill();
+                    ctx.strokeStyle = '#D4AF37';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+
+                    // Shirt Number
+                    ctx.fillStyle = '#D4AF37';
+                    ctx.font = 'bold 11px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(t.number, px, py);
+
+                    // Name Tag
+                    ctx.font = 'bold 10px Inter, sans-serif';
+                    const textWidth = ctx.measureText(t.name).width;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.fillRect(px - (textWidth / 2) - 3, py + 16, textWidth + 6, 13);
+                    ctx.strokeStyle = '#0B2341';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(px - (textWidth / 2) - 3, py + 16, textWidth + 6, 13);
+
+                    ctx.fillStyle = '#0B2341';
+                    ctx.fillText(t.name, px, py + 23);
+
+                } else if (t.team === 'away') {
+                    // Away Token (Crimson Body, White Ring)
+                    ctx.beginPath();
+                    ctx.arc(px, py, 14, 0, Math.PI * 2);
+                    ctx.fillStyle = '#C8102E';
+                    ctx.fill();
+                    ctx.strokeStyle = '#FFFFFF';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+
+                    // Shirt Number
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.font = 'bold 11px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(t.number, px, py);
+
+                    // Name Tag
+                    ctx.font = 'bold 10px Inter, sans-serif';
+                    const textWidth = ctx.measureText(t.name).width;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.fillRect(px - (textWidth / 2) - 3, py + 16, textWidth + 6, 13);
+
+                    ctx.fillStyle = '#C8102E';
+                    ctx.fillText(t.name, px, py + 23);
+
+                } else if (t.team === 'ball') {
+                    // Ball Token
+                    ctx.beginPath();
+                    ctx.arc(px, py, 9, 0, Math.PI * 2);
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fill();
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#000000';
+                    ctx.beginPath();
+                    ctx.arc(px, py, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+
+        // Draw Annotations
+        function drawAnnotations() {
+            drawingsHistory.forEach(item => {
+                ctx.strokeStyle = item.color;
+                ctx.fillStyle = item.color;
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+
+                if (item.tool === 'arrow') {
+                    drawArrow(ctx, item.x1, item.y1, item.x2, item.y2);
+                } else if (item.tool === 'dashed') {
+                    ctx.setLineDash([6, 6]);
+                    drawArrow(ctx, item.x1, item.y1, item.x2, item.y2);
+                    ctx.setLineDash([]);
+                } else if (item.tool === 'freehand' && item.points.length > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(item.points[0].x, item.points[0].y);
+                    for (let i = 1; i < item.points.length; i++) {
+                        ctx.lineTo(item.points[i].x, item.points[i].y);
+                    }
+                    ctx.stroke();
+                }
+            });
+
+            // Draw current active drawing in progress
+            if (isDrawing) {
+                ctx.strokeStyle = currentColor;
+                ctx.fillStyle = currentColor;
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+
+                if (currentTool === 'arrow') {
+                    drawArrow(ctx, startX, startY, currentX, currentY);
+                } else if (currentTool === 'dashed') {
+                    ctx.setLineDash([6, 6]);
+                    drawArrow(ctx, startX, startY, currentX, currentY);
+                    ctx.setLineDash([]);
+                } else if (currentTool === 'freehand' && freehandPoints.length > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(freehandPoints[0].x, freehandPoints[0].y);
+                    for (let i = 1; i < freehandPoints.length; i++) {
+                        ctx.lineTo(freehandPoints[i].x, freehandPoints[i].y);
+                    }
+                    ctx.stroke();
+                }
+            }
+        }
+
+        let currentX = 0, currentY = 0;
+
+        function drawArrow(context, fromX, fromY, toX, toY) {
+            const headlen = 10;
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+
+            context.beginPath();
+            context.moveTo(fromX, fromY);
+            context.lineTo(toX, toY);
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(toX, toY);
+            context.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+            context.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+            context.lineTo(toX, toY);
+            context.fill();
+        }
+
+        // UNIFIED MOUSE AND TOUCH EVENT HANDLERS
+        function getCanvasCoords(e) {
+            const rect = futsalCanvas.getBoundingClientRect();
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else if (e.changedTouches && e.changedTouches.length > 0) {
+                clientX = e.changedTouches[0].clientX;
+                clientY = e.changedTouches[0].clientY;
+            }
+
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top,
+                pctX: ((clientX - rect.left) / rect.width) * 100,
+                pctY: ((clientY - rect.top) / rect.height) * 100
+            };
+        }
+
+        function setupControls() {
+            // Touch & Mouse Pointer Down
+            const handleStart = (e) => {
+                if (animationPlaying) pauseAnimation();
+                const coords = getCanvasCoords(e);
+
+                if (currentTool === 'select') {
+                    // Check if clicked on a token
+                    const w = futsalCanvas.width;
+                    const h = futsalCanvas.height;
+
+                    for (let i = tokens.length - 1; i >= 0; i--) {
+                        const t = tokens[i];
+                        const tx = (t.x / 100) * w;
+                        const ty = (t.y / 100) * h;
+                        const dist = Math.hypot(coords.x - tx, coords.y - ty);
+
+                        if (dist <= 22) { // Hitbox
+                            activeDraggedToken = t;
+                            break;
+                        }
+                    }
+                } else {
+                    isDrawing = true;
+                    startX = coords.x;
+                    startY = coords.y;
+                    currentX = coords.x;
+                    currentY = coords.y;
+                    freehandPoints = [{ x: coords.x, y: coords.y }];
+                }
+            };
+
+            const handleMove = (e) => {
+                const coords = getCanvasCoords(e);
+
+                if (activeDraggedToken) {
+                    activeDraggedToken.x = Math.max(3, Math.min(97, coords.pctX));
+                    activeDraggedToken.y = Math.max(3, Math.min(97, coords.pctY));
+                } else if (isDrawing) {
+                    currentX = coords.x;
+                    currentY = coords.y;
+
+                    if (currentTool === 'freehand') {
+                        freehandPoints.push({ x: coords.x, y: coords.y });
+                    } else if (currentTool === 'eraser') {
+                        drawingsHistory = drawingsHistory.filter(item => {
+                            const ptX = item.x2 || (item.points && item.points[0].x);
+                            const ptY = item.y2 || (item.points && item.points[0].y);
+                            return Math.hypot(ptX - coords.x, ptY - coords.y) > 30;
+                        });
+                    }
+                }
+            };
+
+            const handleEnd = (e) => {
+                if (activeDraggedToken) {
+                    // Check direct drag swap on pitch
+                    if (activeDraggedToken.team === 'home') {
+                        const w = futsalCanvas.width;
+                        const h = futsalCanvas.height;
+                        const dragX = (activeDraggedToken.x / 100) * w;
+                        const dragY = (activeDraggedToken.y / 100) * h;
+
+                        tokens.forEach(otherToken => {
+                            if (otherToken !== activeDraggedToken && otherToken.team === 'home') {
+                                const ox = (otherToken.x / 100) * w;
+                                const oy = (otherToken.y / 100) * h;
+                                if (Math.hypot(dragX - ox, dragY - oy) < 25) {
+                                    // Swap positions!
+                                    const tempX = otherToken.x;
+                                    const tempY = otherToken.y;
+                                    otherToken.x = activeDraggedToken.x;
+                                    otherToken.y = activeDraggedToken.y;
+                                    activeDraggedToken.x = tempX;
+                                    activeDraggedToken.y = tempY;
+                                }
+                            }
+                        });
+                    }
+                    activeDraggedToken = null;
+                }
+
+                if (isDrawing) {
+                    isDrawing = false;
+                    if (currentTool === 'arrow' || currentTool === 'dashed') {
+                        drawingsHistory.push({
+                            tool: currentTool,
+                            x1: startX,
+                            y1: startY,
+                            x2: currentX,
+                            y2: currentY,
+                            color: currentColor
+                        });
+                    } else if (currentTool === 'freehand' && freehandPoints.length > 0) {
+                        drawingsHistory.push({
+                            tool: 'freehand',
+                            points: freehandPoints,
+                            color: currentColor
+                        });
+                    }
+                }
+            };
+
+            // Keyframe animation controls
+            document.getElementById('btnAddKeyframe').addEventListener('click', addKeyframe);
+            document.getElementById('btnReplaceKeyframe').addEventListener('click', replaceCurrentKeyframe);
+            document.getElementById('btnPlayAnimation').addEventListener('click', toggleAnimationPlayback);
+            document.getElementById('btnClearKeyframes').addEventListener('click', clearKeyframes);
+            document.getElementById('btnExportFrames').addEventListener('click', exportKeyframeSequence);
+            document.getElementById('btnExportVideo').addEventListener('click', exportAnimationVideo);
+            document.getElementById('frameSlider').addEventListener('input', (e) => {
+                if (!keyframes.length) return;
+                pauseAnimation();
+                selectedKeyframeIndex = Math.max(0, Math.min(keyframes.length - 1, Number(e.target.value) || 0));
+                applyKeyframeData(keyframes[selectedKeyframeIndex]);
+                updateAnimationControls();
+            });
+            updateAnimationControls();
+
+            // Canvas Listeners
+            futsalCanvas.addEventListener('mousedown', handleStart);
+            futsalCanvas.addEventListener('mousemove', handleMove);
+            futsalCanvas.addEventListener('mouseup', handleEnd);
+
+            futsalCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleStart(e); }, { passive: false });
+            futsalCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, { passive: false });
+            futsalCanvas.addEventListener('touchend', (e) => { e.preventDefault(); handleEnd(e); }, { passive: false });
+
+            // Tool Switchers
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTool = btn.dataset.tool;
+                });
+            });
+
+            // Color Picker
+            document.querySelectorAll('.color-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                    currentColor = dot.dataset.color;
+                });
+            });
+
+            // Formacioni
+            document.getElementById('formationSelect').addEventListener('change', (e) => {
+                pauseAnimation();
+                applyFormation(e.target.value);
+            });
+
+            // Undo & Clear
+            document.getElementById('btnUndo').addEventListener('click', () => {
+                pauseAnimation();
+                drawingsHistory.pop();
+            });
+
+            document.getElementById('btnClearDrawings').addEventListener('click', () => {
+                pauseAnimation();
+                drawingsHistory = [];
+            });
+
+            document.getElementById('btnResetPitch').addEventListener('click', () => {
+                pauseAnimation();
+                const fmt = document.getElementById('formationSelect').value;
+                applyFormation(fmt);
+                drawingsHistory = [];
+            });
+
+            // Preset Set Pieces
+            document.querySelectorAll('.preset-sp-btn').forEach(btn => {
+                btn.addEventListener('click', () => loadSetPiece(btn.dataset.sp));
+            });
+
+            // Export Image
+            document.getElementById('btnExportImage').addEventListener('click', exportImage);
+
+            // Modal Swap Controls
+            document.getElementById('btnCloseSwapModal').addEventListener('click', closeSwapModal);
+            document.getElementById('btnCancelSwap').addEventListener('click', closeSwapModal);
+
+            // Named animation library (persists in this browser via localStorage).
+            document.getElementById('btnSaveTactic').addEventListener('click', saveNamedTactic);
+            document.getElementById('btnLoadTactic').addEventListener('click', loadSelectedTactic);
+            document.getElementById('btnUpdateTactic').addEventListener('click', updateSelectedTactic);
+            document.getElementById('btnDeleteTactic').addEventListener('click', deleteSelectedTactic);
+            document.getElementById('savedTacticsSelect').addEventListener('change', (event) => {
+                selectedSavedTacticId = event.target.value;
+                const saved = savedTactics.find(item => item.id === selectedSavedTacticId);
+                document.getElementById('tacticNameInput').value = saved ? saved.name : '';
+                updateSavedTacticsUI();
+            });
+            document.getElementById('tacticNameInput').addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') saveNamedTactic();
+            });
+            loadSavedTacticsFromStorage();
+            updateSavedTacticsUI();
+        }
+
+        // Render Roster in Sidebar
+        function renderRoster() {
+            const rosterEl = document.getElementById('rosterList');
+            rosterEl.innerHTML = '';
+
+            squadData.forEach((player, idx) => {
+                const item = document.createElement('div');
+                item.className = `flex items-center justify-between p-2 rounded-lg border text-xs ${
+                    player.active ? 'bg-navy-dark border-gold/40' : 'bg-slate-800/80 border-slate-700 opacity-80'
+                }`;
+
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full ${player.active ? 'bg-gold text-navy font-black' : 'bg-slate-700 text-slate-300'} font-extrabold flex items-center justify-center text-[10px] border border-navy">
+                            ${player.number}
+                        </span>
+                        <div>
+                            <div class="font-bold text-white flex items-center gap-1">
+                                ${player.name}
+                                ${player.role.includes('Portier') ? '<i class="fa-solid fa-hands-glove text-gold text-[10px]"></i>' : ''}
+                            </div>
+                            <div class="text-[9.5px] text-slate-400 font-semibold">${player.role}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase ${
+                            player.active ? 'bg-gold/20 text-gold border border-gold/40' : 'bg-slate-700 text-slate-400'
+                        }">
+                            ${player.active ? 'TITULLAR' : 'BANKË'}
+                        </span>
+                        <button class="swap-btn px-2 py-1 bg-crimson hover:bg-crimson-dark text-white text-[10px] font-black rounded-lg transition flex items-center gap-1 active:scale-95" data-idx="${idx}">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i> Ndrro
+                        </button>
+                    </div>
+                `;
+                rosterEl.appendChild(item);
+            });
+
+            // Attach Swap Modal Trigger
+            document.querySelectorAll('.swap-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    openSwapModal(idx);
+                });
+            });
+
+            // Update top counters
+            const activeCount = squadData.filter(s => s.active).length;
+            document.getElementById('topStarterCount').textContent = activeCount;
+            document.getElementById('topBenchCount').textContent = squadData.length - activeCount;
+        }
+
+        // Open Swap Candidate Modal
+        function openSwapModal(playerIdx) {
+            targetSwapPlayerIdx = playerIdx;
+            const targetPlayer = squadData[playerIdx];
+
+            document.getElementById('swapModalTitle').textContent = `Ndërro ${targetPlayer.name} (#${targetPlayer.number})`;
+            document.getElementById('swapModalSub').textContent = `Zgjidh cilin lojtar dëshiron ta futësh në vend të ${targetPlayer.name}:`;
+
+            const candidatesList = document.getElementById('swapCandidatesList');
+            candidatesList.innerHTML = '';
+
+            squadData.forEach((candidate, idx) => {
+                if (idx !== playerIdx) {
+                    const candBtn = document.createElement('button');
+                    candBtn.className = `w-full flex items-center justify-between p-2 rounded-lg border text-xs font-bold transition text-left ${
+                        candidate.active ? 'bg-navy-dark border-gold/30 hover:bg-gold/10 text-gold' : 'bg-slate-800 border-slate-700 hover:bg-slate-700 text-white'
+                    }`;
+
+                    candBtn.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full ${candidate.active ? 'bg-gold text-navy' : 'bg-slate-600 text-white'} flex items-center justify-center font-black text-[10px]">
+                                ${candidate.number}
+                            </span>
+                            <span>${candidate.name} (${candidate.role})</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">${candidate.active ? 'TITULLAR' : 'BANKË'}</span>
+                    `;
+
+                    candBtn.addEventListener('click', () => {
+                        executeSwap(playerIdx, idx);
+                    });
+
+                    candidatesList.appendChild(candBtn);
+                }
+            });
+
+            document.getElementById('swapModal').classList.remove('hidden');
+        }
+
+        function closeSwapModal() {
+            document.getElementById('swapModal').classList.add('hidden');
+            targetSwapPlayerIdx = null;
+        }
+
+        function executeSwap(idx1, idx2) {
+            pauseAnimation();
+            // Swap active statuses
+            const tempActive = squadData[idx1].active;
+            squadData[idx1].active = squadData[idx2].active;
+            squadData[idx2].active = tempActive;
+
+            renderRoster();
+            const fmt = document.getElementById('formationSelect').value;
+            applyFormation(fmt);
+            closeSwapModal();
+        }
+
+        // Load Set Piece Routines in Albanian
+        function loadSetPiece(sp) {
+            pauseAnimation();
+            drawingsHistory = [];
+            const notes = document.getElementById('tacticalNotes');
+
+            if (sp === 'corner') {
+                notes.value = 'KËNDORE (CORNER):\n- Nart kroson ulët për Eulon në hyrje të zonës.\n- Enes bën vrapim në shtyllën e parë për të tërhequr mbrojtësin.';
+            } else if (sp === 'sideline') {
+                notes.value = 'RIVËNIE ANËSORE:\n- Pris pason shpejt te Blin.\n- Eulon hapet në krahun tjetër për gjuajtje të menjëhershme.';
+            } else if (sp === 'press') {
+                notes.value = 'PRESING I LARTË (5+1):\n- Bllokim i ngushtë futsalli 1-kundër-1 nga Enes dhe Nart.\n- Mbrojtja e lartë deri në vijën e mesfushës.';
+            } else if (sp === 'counter') {
+                notes.value = 'KUNDËRSULM I SHPEJTË:\n- Leonit kap topin dhe lanson shpejt me dorë për Pris/Leundin në krah.';
+            }
+        }
+
+        // ================= NAMED TACTIC LIBRARY =================
+        // This library is persistent for this browser/profile. A server-backed account
+        // would be required for the same saved tactics to appear on other devices.
+        function loadSavedTacticsFromStorage() {
+            try {
+                const raw = localStorage.getItem(TACTIC_LIBRARY_STORAGE_KEY);
+                const parsed = raw ? JSON.parse(raw) : [];
+                savedTactics = Array.isArray(parsed)
+                    ? parsed.filter(item => item && typeof item.id === 'string' && typeof item.name === 'string' && Array.isArray(item.frames))
+                    : [];
+            } catch (error) {
+                console.warn('Biblioteka e taktikave nuk mund të lexohet nga localStorage:', error);
+                savedTactics = [];
+                setSavedTacticsStatus('Nuk mund të lexohen ruajtjet lokale në këtë shfletues.', true);
+            }
+        }
+
+        function persistSavedTactics() {
+            try {
+                localStorage.setItem(TACTIC_LIBRARY_STORAGE_KEY, JSON.stringify(savedTactics));
+                updateSavedTacticsUI();
+                return true;
+            } catch (error) {
+                console.error('Nuk mund të ruhen animacionet taktike:', error);
+                setSavedTacticsStatus('Ruajtja dështoi. Hapësira lokale mund të jetë plot ose shfletuesi e ka bllokuar ruajtjen.', true);
+                return false;
+            }
+        }
+
+        function setSavedTacticsStatus(message, isError = false) {
+            const status = document.getElementById('savedTacticsStatus');
+            if (!status) return;
+            status.textContent = message;
+            status.className = `text-[10px] ${isError ? 'text-crimson-light' : 'text-slate-400'}`;
+        }
+
+        function updateSavedTacticsUI() {
+            const select = document.getElementById('savedTacticsSelect');
+            if (!select) return;
+            const previousId = selectedSavedTacticId;
+            select.replaceChildren();
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '— Zgjidh animacion të ruajtur —';
+            select.appendChild(placeholder);
+
+            savedTactics
+                .slice()
+                .sort((a, b) => a.name.localeCompare(b.name, 'sq'))
+                .forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = `${item.name} (${item.frames.length} korniza)`;
+                    select.appendChild(option);
+                });
+
+            selectedSavedTacticId = savedTactics.some(item => item.id === previousId) ? previousId : '';
+            select.value = selectedSavedTacticId;
+            document.getElementById('savedTacticsCount').textContent = `${savedTactics.length} të ruajtura`;
+            const hasSelected = Boolean(selectedSavedTacticId);
+            document.getElementById('btnLoadTactic').disabled = !hasSelected || animationPlaying || videoRecording;
+            document.getElementById('btnUpdateTactic').disabled = !hasSelected || animationPlaying || videoRecording;
+            document.getElementById('btnDeleteTactic').disabled = !hasSelected || animationPlaying || videoRecording;
+            document.getElementById('btnSaveTactic').disabled = animationPlaying || videoRecording;
+        }
+
+        function saveNamedTactic() {
+            if (animationPlaying || videoRecording) {
+                setSavedTacticsStatus('Ndalo animacionin ose përfundo regjistrimin para se ta ruash.', true);
+                return;
+            }
+            const input = document.getElementById('tacticNameInput');
+            const name = input.value.trim();
+            if (!name) {
+                setSavedTacticsStatus('Shkruaj një emër për taktikën para ruajtjes.', true);
+                input.focus();
+                return;
+            }
+            if (keyframes.length < 2) {
+                setSavedTacticsStatus('Për të ruajtur një animacion, shto të paktën dy korniza.', true);
+                return;
+            }
+
+            const duplicate = savedTactics.find(item => item.name.toLocaleLowerCase() === name.toLocaleLowerCase());
+            if (duplicate) {
+                const overwrite = window.confirm(`Ekziston tashmë “${duplicate.name}”. Dëshiron ta zëvendësosh me këtë animacion?`);
+                if (!overwrite) return;
+                duplicate.name = name;
+                duplicate.frames = deepClone(keyframes);
+                duplicate.formation = document.getElementById('formationSelect').value;
+                duplicate.notes = document.getElementById('tacticalNotes').value;
+                duplicate.updatedAt = new Date().toISOString();
+                selectedSavedTacticId = duplicate.id;
+            } else {
+                const entry = {
+                    id: (window.crypto && typeof window.crypto.randomUUID === 'function')
+                        ? window.crypto.randomUUID()
+                        : `tactic_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`,
+                    name,
+                    frames: deepClone(keyframes),
+                    formation: document.getElementById('formationSelect').value,
+                    notes: document.getElementById('tacticalNotes').value,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                savedTactics.push(entry);
+                selectedSavedTacticId = entry.id;
+            }
+
+            if (persistSavedTactics()) {
+                document.getElementById('savedTacticsSelect').value = selectedSavedTacticId;
+                setSavedTacticsStatus(`Animacioni “${name}” u ruajt me ${keyframes.length} korniza në këtë shfletues.`);
+            }
+        }
+
+        function loadSelectedTactic() {
+            if (videoRecording) {
+                setSavedTacticsStatus('Prit derisa eksportimi i videos të përfundojë para se të hapësh një animacion tjetër.', true);
+                return;
+            }
+            if (animationPlaying) pauseAnimation();
+            const item = savedTactics.find(saved => saved.id === selectedSavedTacticId);
+            if (!item) {
+                setSavedTacticsStatus('Zgjidh një animacion nga lista për ta hapur.', true);
+                return;
+            }
+            if (!Array.isArray(item.frames) || item.frames.length < 1) {
+                setSavedTacticsStatus('Ky animacion nuk ka korniza të vlefshme.', true);
+                return;
+            }
+            keyframes = deepClone(item.frames);
+            selectedKeyframeIndex = 0;
+            if (item.formation) document.getElementById('formationSelect').value = item.formation;
+            if (typeof item.notes === 'string') document.getElementById('tacticalNotes').value = item.notes;
+            applyKeyframeData(keyframes[0]);
+            document.getElementById('tacticNameInput').value = item.name;
+            updateAnimationControls();
+            updateSavedTacticsUI();
+            setSavedTacticsStatus(`U hap “${item.name}” (${keyframes.length} korniza). Mund ta luash, ta modifikosh ose ta përditësosh.`);
+        }
+
+        function updateSelectedTactic() {
+            if (animationPlaying || videoRecording) {
+                setSavedTacticsStatus('Ndalo animacionin ose përfundo regjistrimin para përditësimit.', true);
+                return;
+            }
+            const item = savedTactics.find(saved => saved.id === selectedSavedTacticId);
+            if (!item) {
+                setSavedTacticsStatus('Zgjidh një animacion ekzistues për ta përditësuar.', true);
+                return;
+            }
+            const name = document.getElementById('tacticNameInput').value.trim();
+            if (!name) {
+                setSavedTacticsStatus('Emri nuk mund të jetë bosh.', true);
+                return;
+            }
+            if (keyframes.length < 2) {
+                setSavedTacticsStatus('Shto të paktën dy korniza para përditësimit të animacionit.', true);
+                return;
+            }
+            const duplicate = savedTactics.find(saved => saved.id !== item.id && saved.name.toLocaleLowerCase() === name.toLocaleLowerCase());
+            if (duplicate) {
+                setSavedTacticsStatus(`Ekziston një animacion tjetër me emrin “${duplicate.name}”. Zgjidh një emër tjetër.`, true);
+                return;
+            }
+            item.name = name;
+            item.frames = deepClone(keyframes);
+            item.formation = document.getElementById('formationSelect').value;
+            item.notes = document.getElementById('tacticalNotes').value;
+            item.updatedAt = new Date().toISOString();
+            if (persistSavedTactics()) {
+                document.getElementById('savedTacticsSelect').value = item.id;
+                setSavedTacticsStatus(`“${name}” u përditësua me ${keyframes.length} korniza.`);
+            }
+        }
+
+        function deleteSelectedTactic() {
+            if (animationPlaying || videoRecording) {
+                setSavedTacticsStatus('Ndalo animacionin ose përfundo regjistrimin para fshirjes.', true);
+                return;
+            }
+            const item = savedTactics.find(saved => saved.id === selectedSavedTacticId);
+            if (!item) {
+                setSavedTacticsStatus('Zgjidh një animacion nga lista për ta fshirë.', true);
+                return;
+            }
+            if (!window.confirm(`A dëshiron ta fshish përgjithmonë animacionin “${item.name}” nga kjo pajisje?`)) return;
+            savedTactics = savedTactics.filter(saved => saved.id !== item.id);
+            selectedSavedTacticId = '';
+            document.getElementById('tacticNameInput').value = '';
+            if (persistSavedTactics()) setSavedTacticsStatus(`Animacioni “${item.name}” u fshi nga kjo pajisje.`);
+        }
+
+        // ================= KEYFRAME ANIMATION MODULE =================
+        function deepClone(value) {
+            return JSON.parse(JSON.stringify(value));
+        }
+
+        function captureKeyframeData() {
+            return {
+                tokens: deepClone(tokens),
+                drawings: deepClone(drawingsHistory),
+                formation: document.getElementById('formationSelect').value,
+                notes: document.getElementById('tacticalNotes').value
+            };
+        }
+
+        function applyKeyframeData(frame) {
+            if (!frame) return;
+            tokens = deepClone(frame.tokens || []);
+            drawingsHistory = deepClone(frame.drawings || []);
+            if (frame.formation) document.getElementById('formationSelect').value = frame.formation;
+            if (typeof frame.notes === 'string') document.getElementById('tacticalNotes').value = frame.notes;
+        }
+
+        function updateAnimationControls() {
+            const counter = document.getElementById('keyframeCounter');
+            const slider = document.getElementById('frameSlider');
+            const status = document.getElementById('animationStatus');
+            const hint = document.getElementById('keyframeHint');
+            const playBtn = document.getElementById('btnPlayAnimation');
+            const exportBtn = document.getElementById('btnExportFrames');
+            const exportVideoBtn = document.getElementById('btnExportVideo');
+            const hasFrames = keyframes.length > 0;
+
+            counter.textContent = hasFrames
+                ? `Korniza ${Math.min(selectedKeyframeIndex + 1, keyframes.length)} / ${keyframes.length}`
+                : 'Korniza 0 / 0';
+            slider.min = '0';
+            slider.max = String(Math.max(0, keyframes.length - 1));
+            slider.value = String(Math.min(selectedKeyframeIndex, Math.max(0, keyframes.length - 1)));
+            slider.disabled = !hasFrames || animationPlaying || videoRecording;
+            exportBtn.disabled = !hasFrames || animationPlaying || videoRecording;
+            exportVideoBtn.disabled = keyframes.length < 2 || animationPlaying || videoRecording;
+            document.getElementById('btnAddKeyframe').disabled = videoRecording || animationPlaying;
+            document.getElementById('btnReplaceKeyframe').disabled = !hasFrames || videoRecording || animationPlaying;
+            document.getElementById('btnClearKeyframes').disabled = videoRecording || animationPlaying;
+            playBtn.disabled = videoRecording;
+            playBtn.innerHTML = animationPlaying
+                ? '<i class="fa-solid fa-pause"></i> Ndalo Animacionin'
+                : '<i class="fa-solid fa-play"></i> Luaj Animacionin';
+            playBtn.classList.toggle('bg-crimson', !animationPlaying);
+            playBtn.classList.toggle('bg-gold', animationPlaying);
+            playBtn.classList.toggle('text-white', !animationPlaying);
+            playBtn.classList.toggle('text-navy-dark', animationPlaying);
+
+            if (videoRecording) {
+                status.textContent = 'Duke regjistruar videon';
+                status.className = 'text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-emerald-900/40 border border-emerald-500/40 text-emerald-300';
+                hint.textContent = 'Po regjistrohet animacioni si video. Prisni derisa regjistrimi të përfundojë dhe skedari të shkarkohet.';
+                updateSavedTacticsUI();
+                return;
+            }
+
+            if (animationPlaying) {
+                status.textContent = 'Duke luajtur';
+                status.className = 'text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-gold/15 border border-gold/50 text-gold';
+                hint.textContent = `Kalimi ndërmjet kornizave zgjat ${(KEYFRAME_DURATION_MS / 1000).toFixed(1)} sekonda. Shtyp “Ndalo Animacionin” për ta ndalur.`;
+            } else if (!hasFrames) {
+                status.textContent = 'Gati për korniza';
+                status.className = 'text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-slate-800 border border-slate-600 text-slate-300';
+                hint.textContent = 'Lëviz lojtarët ose vizato skemën, pastaj kliko “Shto Kornizë”. Shto të paktën dy korniza për animacion.';
+            } else if (keyframes.length === 1) {
+                status.textContent = '1 kornizë e ruajtur';
+                status.className = 'text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-slate-800 border border-slate-600 text-slate-300';
+                hint.textContent = 'Korniza u ruajt. Ndrysho pozicionet ose vizatimet dhe ruaj një kornizë tjetër për të krijuar animacion.';
+            } else {
+                status.textContent = 'Animacioni gati';
+                status.className = 'text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full bg-emerald-900/40 border border-emerald-500/40 text-emerald-300';
+                hint.textContent = 'Përdor slider-in për të parë secilën kornizë manualisht ose shtyp “Luaj Animacionin” për kalim të butë.';
+            }
+            updateSavedTacticsUI();
+        }
+
+        function addKeyframe() {
+            pauseAnimation();
+            keyframes.push(captureKeyframeData());
+            selectedKeyframeIndex = keyframes.length - 1;
+            updateAnimationControls();
+        }
+
+        function replaceCurrentKeyframe() {
+            if (!keyframes.length || animationPlaying || videoRecording) return;
+            keyframes[selectedKeyframeIndex] = captureKeyframeData();
+            applyKeyframeData(keyframes[selectedKeyframeIndex]);
+            updateAnimationControls();
+            document.getElementById('keyframeHint').textContent = `Korniza ${selectedKeyframeIndex + 1} u përditësua. Nëse është pjesë e një animacioni të ruajtur, shtyp “Përditëso” te Biblioteka e Animacioneve për t’i ruajtur ndryshimet.`;
+        }
+
+        function clearKeyframes() {
+            pauseAnimation();
+            keyframes = [];
+            selectedKeyframeIndex = 0;
+            updateAnimationControls();
+        }
+
+        function toggleAnimationPlayback() {
+            if (animationPlaying) {
+                pauseAnimation();
+                return;
+            }
+            if (keyframes.length < 2) {
+                document.getElementById('keyframeHint').textContent = 'Për të luajtur animacionin duhen të paktën dy korniza. Ruaj edhe një pozicion tjetër.';
+                return;
+            }
+            selectedKeyframeIndex = 0;
+            applyKeyframeData(keyframes[0]);
+            animationPlaying = true;
+            animationStartTimestamp = null;
+            updateAnimationControls();
+            animationRafId = requestAnimationFrame(animateKeyframes);
+        }
+
+        function pauseAnimation() {
+            if (animationRafId !== null) cancelAnimationFrame(animationRafId);
+            animationRafId = null;
+            animationPlaying = false;
+            animationStartTimestamp = null;
+            if (document.getElementById('animationPanel')) updateAnimationControls();
+        }
+
+        function animateKeyframes(timestamp) {
+            if (!animationPlaying || keyframes.length < 2) return;
+            if (animationStartTimestamp === null) animationStartTimestamp = timestamp;
+
+            const elapsed = timestamp - animationStartTimestamp;
+            const transitionIndex = Math.floor(elapsed / KEYFRAME_DURATION_MS);
+            if (transitionIndex >= keyframes.length - 1) {
+                applyKeyframeData(keyframes[keyframes.length - 1]);
+                selectedKeyframeIndex = keyframes.length - 1;
+                animationPlaying = false;
+                animationRafId = null;
+                animationStartTimestamp = null;
+                updateAnimationControls();
+                // Keep the final frame on screen briefly so the video contains the ending position.
+                if (videoRecording && videoRecorder && videoRecorder.state === 'recording') {
+                    videoStopTimerId = window.setTimeout(() => {
+                        if (videoRecorder && videoRecorder.state === 'recording') videoRecorder.stop();
+                    }, 500);
+                }
+                return;
+            }
+
+            const rawProgress = (elapsed - transitionIndex * KEYFRAME_DURATION_MS) / KEYFRAME_DURATION_MS;
+            // Smoothstep easing makes starts/stops feel less abrupt than linear motion.
+            const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
+            const fromFrame = keyframes[transitionIndex];
+            const toFrame = keyframes[transitionIndex + 1];
+            const destinationById = new Map((toFrame.tokens || []).map(token => [token.id, token]));
+            const sourceIds = new Set((fromFrame.tokens || []).map(token => token.id));
+
+            tokens = (fromFrame.tokens || []).map(sourceToken => {
+                const destination = destinationById.get(sourceToken.id);
+                if (!destination) return deepClone(sourceToken);
+                return {
+                    ...sourceToken,
+                    x: sourceToken.x + (destination.x - sourceToken.x) * progress,
+                    y: sourceToken.y + (destination.y - sourceToken.y) * progress
+                };
+            });
+            // Newly introduced tokens (for example, after a roster change) appear at their destination.
+            (toFrame.tokens || []).forEach(destination => {
+                if (!sourceIds.has(destination.id)) tokens.push(deepClone(destination));
+            });
+
+            // Annotations and notes are switched at the midpoint of each transition.
+            drawingsHistory = deepClone(rawProgress < 0.5 ? (fromFrame.drawings || []) : (toFrame.drawings || []));
+            if (rawProgress >= 0.5 && typeof toFrame.notes === 'string') {
+                document.getElementById('tacticalNotes').value = toFrame.notes;
+            } else if (typeof fromFrame.notes === 'string') {
+                document.getElementById('tacticalNotes').value = fromFrame.notes;
+            }
+            if (selectedKeyframeIndex !== transitionIndex) {
+                selectedKeyframeIndex = transitionIndex;
+                updateAnimationControls();
+            }
+            animationRafId = requestAnimationFrame(animateKeyframes);
+        }
+
+        // ================= VIDEO EXPORT (MediaRecorder / WebM or MP4) =================
+        function exportAnimationVideo() {
+            if (keyframes.length < 2 || animationPlaying || videoRecording) {
+                if (keyframes.length < 2) {
+                    document.getElementById('keyframeHint').textContent = 'Për të eksportuar video, ruaj së paku dy korniza.';
+                }
+                return;
+            }
+
+            if (typeof MediaRecorder === 'undefined' || typeof futsalCanvas.captureStream !== 'function') {
+                document.getElementById('keyframeHint').textContent = 'Ky shfletues nuk e mbështet regjistrimin e canvas-it. Provo versionin e fundit të Chrome ose Edge.';
+                return;
+            }
+
+            let stream = null;
+            try {
+                pauseAnimation();
+                selectedKeyframeIndex = 0;
+                applyKeyframeData(keyframes[0]);
+                drawCanvasImmediately();
+
+                stream = futsalCanvas.captureStream(30);
+                const mimeCandidates = [
+                    'video/webm;codecs=vp9',
+                    'video/webm;codecs=vp8',
+                    'video/webm',
+                    'video/mp4;codecs=avc1.42E01E',
+                    'video/mp4'
+                ];
+                const supportedMime = typeof MediaRecorder.isTypeSupported === 'function'
+                    ? mimeCandidates.find(type => MediaRecorder.isTypeSupported(type))
+                    : '';
+
+                videoChunks = [];
+                videoRecorder = supportedMime
+                    ? new MediaRecorder(stream, { mimeType: supportedMime })
+                    : new MediaRecorder(stream);
+                const recorder = videoRecorder;
+                const recordingStream = stream;
+
+                recorder.addEventListener('dataavailable', (event) => {
+                    if (event.data && event.data.size > 0) videoChunks.push(event.data);
+                });
+
+                recorder.addEventListener('error', (event) => {
+                    console.error('Gabim gjatë regjistrimit të videos:', event.error || event);
+                    document.getElementById('keyframeHint').textContent = 'Regjistrimi i videos hasi një gabim. Provo përsëri në Chrome ose Edge.';
+                    try {
+                        if (recorder.state !== 'inactive') recorder.stop();
+                    } catch (_) {}
+                });
+
+                recorder.addEventListener('stop', () => {
+                    if (videoStopTimerId !== null) {
+                        clearTimeout(videoStopTimerId);
+                        videoStopTimerId = null;
+                    }
+
+                    const mimeType = recorder.mimeType || supportedMime || 'video/webm';
+                    const videoBlob = new Blob(videoChunks, { type: mimeType });
+                    recordingStream.getTracks().forEach(track => track.stop());
+                    videoRecording = false;
+                    videoRecorder = null;
+                    videoChunks = [];
+                    updateAnimationControls();
+
+                    if (!videoBlob.size) {
+                        document.getElementById('keyframeHint').textContent = 'Videoja nuk u krijua. Kontrollo mbështetjen e shfletuesit dhe provo përsëri.';
+                        return;
+                    }
+
+                    const extension = mimeType.toLowerCase().includes('mp4') ? 'mp4' : 'webm';
+                    const url = URL.createObjectURL(videoBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `Mehmet_Akif_XI-A_Taktika_Animacioni.${extension}`;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    window.setTimeout(() => URL.revokeObjectURL(url), 5000);
+                    document.getElementById('keyframeHint').textContent = `Videoja u krijua dhe shkarkimi filloi (${extension.toUpperCase()}, ${Math.round(videoBlob.size / 1024)} KB).`;
+                });
+
+                // Start capture before playback so the opening keyframe is included.
+                recorder.start(200);
+                videoRecording = true;
+                updateAnimationControls();
+                window.setTimeout(() => {
+                    if (videoRecording && videoRecorder === recorder && recorder.state === 'recording') {
+                        toggleAnimationPlayback();
+                    }
+                }, 180);
+            } catch (error) {
+                console.error('Nuk mund të niset eksportimi i videos:', error);
+                if (stream) stream.getTracks().forEach(track => track.stop());
+                videoRecording = false;
+                videoRecorder = null;
+                videoChunks = [];
+                updateAnimationControls();
+                document.getElementById('keyframeHint').textContent = 'Nuk u nis regjistrimi i videos. Provo një shfletues modern që mbështet MediaRecorder.';
+            }
+        }
+
+        // Small, dependency-free ZIP writer (STORE mode) for the numbered PNG sequence.
+        const CRC32_TABLE = (() => {
+            const table = new Uint32Array(256);
+            for (let n = 0; n < 256; n++) {
+                let c = n;
+                for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+                table[n] = c >>> 0;
+            }
+            return table;
+        })();
+
+        function calculateCRC32(bytes) {
+            let crc = 0xFFFFFFFF;
+            for (let i = 0; i < bytes.length; i++) crc = (crc >>> 8) ^ CRC32_TABLE[(crc ^ bytes[i]) & 0xFF];
+            return (crc ^ 0xFFFFFFFF) >>> 0;
+        }
+
+        function createZip(entries) {
+            const encoder = new TextEncoder();
+            const localParts = [];
+            const centralParts = [];
+            let localOffset = 0;
+            let centralSize = 0;
+
+            entries.forEach(entry => {
+                const nameBytes = encoder.encode(entry.name);
+                const data = entry.data;
+                const crc = calculateCRC32(data);
+                const localHeader = new Uint8Array(30);
+                const localView = new DataView(localHeader.buffer);
+                localView.setUint32(0, 0x04034b50, true);
+                localView.setUint16(4, 20, true);
+                localView.setUint16(6, 0, true);
+                localView.setUint16(8, 0, true);
+                localView.setUint16(10, 0, true);
+                localView.setUint16(12, 0, true);
+                localView.setUint32(14, crc, true);
+                localView.setUint32(18, data.length, true);
+                localView.setUint32(22, data.length, true);
+                localView.setUint16(26, nameBytes.length, true);
+                localView.setUint16(28, 0, true);
+                localParts.push(localHeader, nameBytes, data);
+
+                const centralHeader = new Uint8Array(46);
+                const centralView = new DataView(centralHeader.buffer);
+                centralView.setUint32(0, 0x02014b50, true);
+                centralView.setUint16(4, 20, true);
+                centralView.setUint16(6, 20, true);
+                centralView.setUint16(8, 0, true);
+                centralView.setUint16(10, 0, true);
+                centralView.setUint16(12, 0, true);
+                centralView.setUint16(14, 0, true);
+                centralView.setUint32(16, crc, true);
+                centralView.setUint32(20, data.length, true);
+                centralView.setUint32(24, data.length, true);
+                centralView.setUint16(28, nameBytes.length, true);
+                centralView.setUint16(30, 0, true);
+                centralView.setUint16(32, 0, true);
+                centralView.setUint16(34, 0, true);
+                centralView.setUint16(36, 0, true);
+                centralView.setUint32(38, 0, true);
+                centralView.setUint32(42, localOffset, true);
+                centralParts.push(centralHeader, nameBytes);
+                localOffset += localHeader.length + nameBytes.length + data.length;
+                centralSize += centralHeader.length + nameBytes.length;
+            });
+
+            const endRecord = new Uint8Array(22);
+            const endView = new DataView(endRecord.buffer);
+            endView.setUint32(0, 0x06054b50, true);
+            endView.setUint16(4, 0, true);
+            endView.setUint16(6, 0, true);
+            endView.setUint16(8, entries.length, true);
+            endView.setUint16(10, entries.length, true);
+            endView.setUint32(12, centralSize, true);
+            endView.setUint32(16, localOffset, true);
+            endView.setUint16(20, 0, true);
+            return new Blob([...localParts, ...centralParts, endRecord], { type: 'application/zip' });
+        }
+
+        function dataURLToBytes(dataURL) {
+            const binary = atob(dataURL.split(',')[1]);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            return bytes;
+        }
+
+        function drawCanvasImmediately() {
+            ctx.clearRect(0, 0, futsalCanvas.width, futsalCanvas.height);
+            drawFutsalCourt();
+            drawAnnotations();
+            drawTokens();
+        }
+
+        function exportKeyframeSequence() {
+            if (!keyframes.length || animationPlaying) return;
+            const originalState = captureKeyframeData();
+            const originalSelectedIndex = selectedKeyframeIndex;
+            const originalIsDrawing = isDrawing;
+            const originalFreehandPoints = deepClone(freehandPoints);
+            const entries = [];
+            let exportFailed = false;
+
+            try {
+                isDrawing = false;
+                activeDraggedToken = null;
+                keyframes.forEach((frame, index) => {
+                    applyKeyframeData(frame);
+                    drawCanvasImmediately();
+                    const dataURL = futsalCanvas.toDataURL('image/png');
+                    const frameNumber = String(index + 1).padStart(2, '0');
+                    entries.push({
+                        name: `Mehmet_Akif_XI-A_Korniza_${frameNumber}.png`,
+                        data: dataURLToBytes(dataURL)
+                    });
+                });
+            } catch (error) {
+                console.error('Gabim gjatë eksportimit të kornizave:', error);
+                exportFailed = true;
+            } finally {
+                applyKeyframeData(originalState);
+                selectedKeyframeIndex = originalSelectedIndex;
+                isDrawing = originalIsDrawing;
+                freehandPoints = originalFreehandPoints;
+                drawCanvasImmediately();
+                updateAnimationControls();
+            }
+
+            if (exportFailed) {
+                document.getElementById('keyframeHint').textContent = 'Eksportimi dështoi. Provo të eksportosh më pak korniza ose kontrollo madhësinë e canvas-it.';
+                return;
+            }
+
+            const zipBlob = createZip(entries);
+            const url = URL.createObjectURL(zipBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Mehmet_Akif_XI-A_Taktika_Kornizat_PNG.zip';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+            document.getElementById('keyframeHint').textContent = `U eksportuan ${entries.length} korniza PNG në një skedar ZIP.`;
+        }
+
+        // Export PNG Image
+        function exportImage() {
+            const link = document.createElement('a');
+            link.download = 'Mehmet_Akif_XI-A_Taktikat_5+1.png';
+            link.href = futsalCanvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+
+    <script>
+        // Enable offline app-shell caching when hosted on HTTPS (required by iOS web apps).
+        if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+                    console.warn('Service Worker nuk mund të regjistrohet:', error);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

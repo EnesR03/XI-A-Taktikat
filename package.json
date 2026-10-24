@@ -1,0 +1,13 @@
+{
+  "name": "taktikat-xi-a",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tabela taktike e futsallit 5+1 për ekipin XI-A",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}
